@@ -13,5 +13,5 @@ int close(int fd)
     return -1;
   }
 
-  return call;
+  return 0;
 }

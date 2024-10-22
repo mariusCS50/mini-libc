@@ -12,5 +12,5 @@ int fstat(int fd, struct stat *st)
     return -1;
   }
 
-  return call;
+  return 0;
 }

@@ -13,5 +13,5 @@ int stat(const char *restrict path, struct stat *restrict buf)
     return -1;
   }
 
-  return call;
+  return 0;
 }

@@ -1,12 +1,25 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 #include <unistd.h>
+#include <internal/syscall.h>
+#include <errno.h>
 #include <string.h>
 
 int puts(const char *str)
 {
-    write(1, str, strlen(str));
-    write(1, "\n", 1);
+  int call = write(1, str, strlen(str));
 
-    return 0;
+  if (call < 0) {
+    errno = -call;
+    return -1;
+  }
+
+  call = write(1, "\n", 1);
+
+  if (call < 0) {
+    errno = -call;
+    return -1;
+  }
+
+  return call;
 }

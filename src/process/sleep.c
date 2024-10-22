@@ -5,6 +5,6 @@
 
 unsigned int sleep(unsigned int seconds)
 {
-  struct timespec wait = {seconds, 0};
-	return nanosleep(&wait, NULL);
+  struct timespec duration = {seconds, 0};
+	return nanosleep(&duration, NULL);
 }

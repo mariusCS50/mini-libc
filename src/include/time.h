@@ -8,8 +8,8 @@ extern "C" {
 #endif
 
 struct timespec {
-    long tv_sec;
-    long tv_nsec;
+  long seconds;
+  long nanoseconds;
 };
 
 int nanosleep(const struct timespec *duration, struct timespec *rem);

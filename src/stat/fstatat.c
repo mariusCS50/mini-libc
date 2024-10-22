@@ -7,6 +7,8 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#define STATX_ALL 0x00000fffU
+
 #define makedev(x, y) ( \
 		(((x)&0xfffff000ULL) << 32) | \
 	(((x)&0x00000fffULL) << 8) | \
@@ -42,12 +44,29 @@ struct statx {
 
 int fstatat_statx(int fd, const char *restrict path, struct stat *restrict st, int flag)
 {
-	/* TODO: Implement fstatat_statx(). Use statx and makedev above. */
-	return -1;
+	struct statx stx;
+
+  int ret = syscall(__NR_statx, fd, path, flag, STATX_ALL, &stx);
+
+  if (ret == -1) {
+      return -1;
+  }
+
+  st->st_dev = makedev(stx.stx_dev_major, stx.stx_dev_minor);
+  st->st_ino = stx.stx_ino;
+  st->st_mode = stx.stx_mode;
+  st->st_nlink = stx.stx_nlink;
+  st->st_uid = stx.stx_uid;
+  st->st_gid = stx.stx_gid;
+  st->st_rdev = makedev(stx.stx_rdev_major, stx.stx_rdev_minor);
+  st->st_size = stx.stx_size;
+  st->st_blksize = stx.stx_blksize;
+  st->st_blocks = stx.stx_blocks;
+
+  return 0;
 }
 
 int fstatat(int fd, const char *restrict path, struct stat *restrict st, int flag)
 {
-	/* TODO: Implement fstatat(). Use fstatat_statx(). */
-	return -1;
+	return fstatat_statx(fd, path, st, flag);
 }

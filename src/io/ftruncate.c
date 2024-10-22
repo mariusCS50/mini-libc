@@ -12,5 +12,5 @@ int ftruncate(int fd, off_t length)
     return -1;
   }
 
-  return call;
+  return 0;
 }

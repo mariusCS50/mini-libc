@@ -12,5 +12,5 @@ int truncate(const char *path, off_t length)
     return -1;
   }
 
-  return call;
+  return 0;
 }
