@@ -30,7 +30,7 @@ int munmap(void *addr, size_t length)
 	int call = syscall(__NR_munmap, addr, length);
   if (call < 0) {
     errno = -call;
-    return MAP_FAILED;
+    return -1;
   }
-	return call;
+	return 0;
 }
